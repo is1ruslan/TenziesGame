@@ -14,10 +14,7 @@ export default function App () {
     const allSameValue = dice.every(die => die.value === dieValue);
 
     if (allHeld && allSameValue) {
-        setWin(true);
-        setCountRoll(0);
-    } else {
-        setCountRoll(prevCount => prevCount + 1);
+      setWin(true)
     }
   }, [dice]); 
 
@@ -32,15 +29,17 @@ export default function App () {
 
   function rollDice() {
     if (!win) {
-            const newDice = dice.map((die, ind) => 
-            die.held ?
-            die :
-            {value: randomDieValue(), held: false, id: ind+1}
-          )
+          const newDice = dice.map((die, ind) => 
+          die.held ?
+          die :
+          {value: randomDieValue(), held: false, id: ind+1}
+          );
         setDice(newDice);
+        setCountRoll(prevCount => prevCount + 1);
     } else {
         setDice(allNewDice);
         setWin(false);
+        setCountRoll(0);
     }
   }
 
@@ -67,7 +66,9 @@ export default function App () {
 
   return (
     <main>
-        {win && <Confetti />}
+
+      {win && <Confetti numberOfPieces={500} gravity={0.1} />}
+
       <h1>Tenzies</h1>
       <p>Roll until all dice are the same. 
         Click each die to freeze it at its current value between rolls.</p>
